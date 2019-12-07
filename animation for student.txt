@@ -1,0 +1,94 @@
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.om.e.MainActivity">
+
+    <ImageView
+        android:id="@+id/iid"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>
+
+
+rotation.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <alpha android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:duration="600"
+        android:repeatMode="reverse"
+        android:repeatCount="infinite"/>
+</set>
+
+MainActivity.java
+
+import android.content.Intent;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity {
+
+    ImageView iid;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        iid =(ImageView) findViewById(R.id.iid);
+
+
+
+        animateImageViewiid();
+
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                Intent i = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(i);
+
+                finish();
+            }
+        }, 12000);
+
+    }
+
+
+    private void animateImageViewiid() {
+        AnimationSet set = new AnimationSet(true);
+        set.setFillAfter(true);
+
+        Animation rotation = AnimationUtils.loadAnimation(this, R.anim.rotation);
+        TranslateAnimation moveLefttoRight = new TranslateAnimation(0, 0, 0, 0);
+        moveLefttoRight.setDuration(1000);
+        moveLefttoRight.setStartOffset(1000);
+
+        set.addAnimation(rotation);
+        set.addAnimation(moveLefttoRight);
+
+        iid.startAnimation(set);
+
+    }
+    }
+
